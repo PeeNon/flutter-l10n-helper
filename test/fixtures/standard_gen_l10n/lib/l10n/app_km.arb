@@ -1,0 +1,8 @@
+{
+  "@@locale": "km",
+  "appTitle": "Flutter L10n Helper",
+  "welcome": "សូមស្វាគមន៍",
+  "loginTitle": "ចូល",
+  "connectionError": "មិនអាចភ្ជាប់បាន",
+  "itemCount": "{count, plural, =0{មិនមានធាតុ} other{{count} ធាតុ}}"
+}

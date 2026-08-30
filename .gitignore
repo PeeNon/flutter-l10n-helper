@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# VS Code extension
+out/
+*.vsix
+
+# IDE
+.serena/

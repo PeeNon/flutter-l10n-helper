@@ -1,0 +1,164 @@
+{
+  "name": "flutter-l10n-helper",
+  "displayName": "Flutter L10n Helper",
+  "description": "Inline translations, diagnostics, navigation, and ARB tooling for Flutter localization.",
+  "version": "0.1.0",
+  "publisher": "peenon",
+  "license": "MIT",
+  "pricing": "Free",
+  "icon": "images/icon.png",
+  "homepage": "https://github.com/PeeNon/flutter-l10n-helper#readme",
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "flutter",
+    "dart",
+    "l10n",
+    "localization",
+    "arb",
+    "translation",
+    "internationalization",
+    "developer-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PeeNon/flutter-l10n-helper"
+  },
+  "bugs": {
+    "url": "https://github.com/PeeNon/flutter-l10n-helper/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "activationEvents": [
+    "workspaceContains:**/pubspec.yaml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "flutterL10n.showProjectInfo",
+        "title": "Flutter L10n: Show Project Information"
+      },
+      {
+        "command": "flutterL10n.refreshTranslationIndex",
+        "title": "Flutter L10n: Refresh Translation Index"
+      },
+      {
+        "command": "flutterL10n.selectDisplayLocale",
+        "title": "Flutter L10n: Select Display Locale"
+      },
+      {
+        "command": "flutterL10n.addTranslationKey",
+        "title": "Flutter L10n: Add Translation Key"
+      },
+      {
+        "command": "flutterL10n.extractToArb",
+        "title": "Flutter L10n: Extract Text to ARB"
+      },
+      {
+        "command": "flutterL10n.renameTranslationKey",
+        "title": "Flutter L10n: Rename Translation Key"
+      },
+      {
+        "command": "flutterL10n.findMissingTranslations",
+        "title": "Flutter L10n: Find Missing Translations"
+      },
+      {
+        "command": "flutterL10n.findUnusedKeys",
+        "title": "Flutter L10n: Find Unused Keys"
+      },
+      {
+        "command": "flutterL10n.showTranslationReport",
+        "title": "Flutter L10n: Show Translation Report"
+      }
+    ],
+    "configuration": {
+      "title": "Flutter L10n Helper",
+      "properties": {
+        "flutterL10n.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the Flutter L10n Helper extension."
+        },
+        "flutterL10n.arbDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the ARB directory relative to the workspace root. Leave empty for automatic detection from l10n.yaml."
+        },
+        "flutterL10n.templateLocale": {
+          "type": "string",
+          "default": "",
+          "description": "Template locale (e.g. 'en'). Leave empty for automatic detection from the template ARB file."
+        },
+        "flutterL10n.displayLocale": {
+          "type": "string",
+          "default": "en",
+          "description": "Locale to display for inline annotations in the editor."
+        },
+        "flutterL10n.inlineAnnotations.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline translation annotations next to localization keys."
+        },
+        "flutterL10n.inlineAnnotations.maxLength": {
+          "type": "number",
+          "default": 60,
+          "description": "Maximum character length for inline annotations before truncation."
+        },
+        "flutterL10n.diagnostics.missingKeys": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show diagnostics for localization keys used in Dart but missing from ARB files."
+        },
+        "flutterL10n.diagnostics.missingLocales": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show diagnostics for translation keys missing from one or more locales."
+        },
+        "flutterL10n.diagnostics.placeholderMismatch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show diagnostics for placeholder mismatches between ARB metadata and translation values."
+        },
+        "flutterL10n.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/build/**",
+            "**/.dart_tool/**",
+            "**/*.g.dart",
+            "**/*.freezed.dart"
+          ],
+          "description": "Glob patterns to exclude from scanning."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "package:vsix": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/vsce": "^3.0.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.2.0",
+    "yaml": "^2.4.0"
+  }
+}
