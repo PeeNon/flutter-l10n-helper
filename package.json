@@ -6,6 +6,7 @@
   "publisher": "peenon",
   "license": "MIT",
   "pricing": "Free",
+  "icon": "images/icon.png",
   "homepage": "https://github.com/PeeNon/flutter-l10n-helper#readme",
   "categories": [
     "Programming Languages",

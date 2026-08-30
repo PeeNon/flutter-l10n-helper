@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Flutter L10n Helper logo</title>
+  <desc id="desc">A folded geometric F paired with a compact globe badge for Flutter localization.</desc>
+  <defs>
+    <linearGradient id="bg" x1="70" y1="54" x2="446" y2="466" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0995F5"/>
+      <stop offset="0.52" stop-color="#1769D2"/>
+      <stop offset="1" stop-color="#3030A3"/>
+    </linearGradient>
+    <linearGradient id="foldTop" x1="216" y1="128" x2="392" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#DDF8FF"/>
+      <stop offset="1" stop-color="#A8E8FF"/>
+    </linearGradient>
+    <linearGradient id="foldMid" x1="216" y1="244" x2="348" y2="302" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8EDFFF"/>
+      <stop offset="1" stop-color="#54C6F5"/>
+    </linearGradient>
+    <linearGradient id="globe" x1="324" y1="310" x2="424" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#70F1DB"/>
+      <stop offset="1" stop-color="#25C9B5"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#061B62" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bg)"/>
+  <path d="M76 174C103 93 177 53 264 53c83 0 157 37 190 109" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="18" stroke-linecap="round"/>
+
+  <g filter="url(#softShadow)">
+    <!-- The stem is intentionally simple so the mark remains readable at 32–48 px. -->
+    <rect x="128" y="104" width="94" height="310" rx="38" fill="#FFFFFF"/>
+
+    <!-- Folded top arm. -->
+    <path d="M188 104h182c20 0 36 16 36 36v18c0 20-16 36-36 36H230l-42-45 42-45h-42z" fill="url(#foldTop)"/>
+    <path d="M188 104l45 45-45 45v-90z" fill="#FFFFFF"/>
+
+    <!-- Folded middle arm. -->
+    <path d="M188 224h130c20 0 36 16 36 36v14c0 20-16 36-36 36H230l-42-43 42-43h-42z" fill="url(#foldMid)"/>
+    <path d="M188 224l43 43-43 43v-86z" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Localization badge: a globe in a speech bubble, with no letters or tiny text. -->
+  <g filter="url(#softShadow)">
+    <path d="M316 320c0-22 18-40 40-40h72c22 0 40 18 40 40v70c0 22-18 40-40 40h-36l-37 31 8-31h-7c-22 0-40-18-40-40v-70z" fill="url(#globe)"/>
+    <circle cx="392" cy="354" r="38" fill="none" stroke="#063C59" stroke-width="9"/>
+    <path d="M354 354h76M392 316c15 16 22 28 22 38s-7 22-22 38M392 316c-15 16-22 28-22 38s7 22 22 38" fill="none" stroke="#063C59" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>
