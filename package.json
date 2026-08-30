@@ -6,7 +6,6 @@
   "publisher": "peenon",
   "license": "MIT",
   "pricing": "Free",
-  "icon": "images/icon.png",
   "homepage": "https://github.com/PeeNon/flutter-l10n-helper#readme",
   "categories": [
     "Programming Languages",
@@ -73,6 +72,10 @@
       {
         "command": "flutterL10n.showTranslationReport",
         "title": "Flutter L10n: Show Translation Report"
+      },
+      {
+        "command": "flutterL10n.editTranslation",
+        "title": "Flutter L10n: Edit Translation"
       }
     ],
     "configuration": {
@@ -145,7 +148,7 @@
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
     "pretest": "npm run compile",
-    "test": "node ./out/test/runTest.js",
+    "test": "node ./out/test/test/runTests.js",
     "package:vsix": "vsce package"
   },
   "devDependencies": {

@@ -30,12 +30,17 @@ export class HoverProvider implements vscode.HoverProvider {
     const entry = this.translationIndex.getEntry(reference.key);
     if (!entry) {
       const markdown = new vscode.MarkdownString();
+      markdown.isTrusted = true;
       markdown.appendMarkdown(`**${reference.key}**\n\n`);
-      markdown.appendMarkdown(`⚠️ Key not found in ARB files`);
+      markdown.appendMarkdown(`⚠️ Key not found in ARB files\n\n`);
+      markdown.appendMarkdown(
+        `💡 [Create this key](command:flutterL10n.addTranslationKey?${this.encodeArgs(reference.key)})`
+      );
       return new vscode.Hover(markdown);
     }
 
     const markdown = new vscode.MarkdownString();
+    markdown.isTrusted = true;
     markdown.appendMarkdown(`**${reference.key}**\n\n`);
 
     const locales = this.translationIndex.supportedLocales;
@@ -44,9 +49,13 @@ export class HoverProvider implements vscode.HoverProvider {
       if (value) {
         const escaped = this.escapeMarkdown(value.text);
         const flag = this.getLocaleFlag(locale);
-        markdown.appendMarkdown(`${flag} **${locale}**: ${escaped}\n\n`);
+        markdown.appendMarkdown(
+          `${flag} **${locale}**: ${escaped}  [✏️](command:flutterL10n.editTranslation?${this.encodeArgs(reference.key, locale)})\n\n`
+        );
       } else {
-        markdown.appendMarkdown(`⚠️ **${locale}**: Missing\n\n`);
+        markdown.appendMarkdown(
+          `⚠️ **${locale}**: Missing  [➕](command:flutterL10n.editTranslation?${this.encodeArgs(reference.key, locale)})\n\n`
+        );
       }
     }
 
@@ -66,6 +75,14 @@ export class HoverProvider implements vscode.HoverProvider {
     }
 
     return new vscode.Hover(markdown);
+  }
+
+  private encodeArgs(key: string, locale?: string): string {
+    const args: Record<string, string> = { key };
+    if (locale) {
+      args.locale = locale;
+    }
+    return encodeURIComponent(JSON.stringify(args));
   }
 
   private escapeMarkdown(text: string): string {

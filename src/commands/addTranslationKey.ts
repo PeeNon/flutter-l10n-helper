@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { TranslationIndex } from "../arb/translationIndex";
 import { LocalizationProject } from "../arb/arbModels";
+import { runGenL10n } from "../utils/flutterRunner";
 
 export class AddTranslationKeyCommand {
   private translationIndex: TranslationIndex;
@@ -70,8 +71,6 @@ export class AddTranslationKeyCommand {
       .readdirSync(project.arbDirectoryUri)
       .filter((f) => f.endsWith(".arb") && !f.startsWith("@"));
 
-    const edit = new vscode.WorkspaceEdit();
-
     for (const arbFile of arbFiles) {
       const filePath = path.join(project.arbDirectoryUri, arbFile);
       const content = fs.readFileSync(filePath, "utf-8");
@@ -88,19 +87,21 @@ export class AddTranslationKeyCommand {
       }
 
       const newContent = JSON.stringify(parsed, null, 2) + "\n";
-      edit.replace(vscode.Uri.file(filePath), new vscode.Range(0, 0, Infinity, 0), newContent);
+      fs.writeFileSync(filePath, newContent, "utf-8");
     }
 
-    const success = await vscode.workspace.applyEdit(edit);
-    if (success) {
-      vscode.window.showInformationMessage(
-        `Flutter L10n Helper: Key "${key}" added to ${arbFiles.length} ARB files.`
-      );
-    } else {
-      vscode.window.showErrorMessage(
-        "Flutter L10n Helper: Failed to add translation key."
-      );
+    for (const arbFile of arbFiles) {
+      const filePath = path.join(project.arbDirectoryUri, arbFile);
+      const fileUri = vscode.Uri.file(filePath);
+      const doc = await vscode.workspace.openTextDocument(fileUri);
+      await doc.save();
     }
+
+    await runGenL10n(project.rootUri);
+
+    vscode.window.showInformationMessage(
+      `Flutter L10n Helper: Key "${key}" added to ${arbFiles.length} ARB files`
+    );
   }
 
   private extractLocaleFromFileName(fileName: string): string {

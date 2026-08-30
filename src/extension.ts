@@ -20,6 +20,7 @@ import { ExtractToArbCommand } from "./commands/extractToArb";
 import { RenameTranslationKeyCommand } from "./commands/renameTranslationKey";
 import { FindUnusedKeysCommand } from "./commands/findUnusedKeys";
 import { ShowTranslationReportCommand } from "./commands/showTranslationReport";
+import { EditTranslationCommand } from "./commands/editTranslation";
 import { LocalizationProject } from "./arb/arbModels";
 
 let translationIndex = new TranslationIndex();
@@ -37,6 +38,7 @@ let extractCmd: ExtractToArbCommand;
 let renameCmd: RenameTranslationKeyCommand;
 let findUnusedCmd: FindUnusedKeysCommand;
 let reportCmd: ShowTranslationReportCommand;
+let editCmd: EditTranslationCommand;
 const arbParser = new ArbParser();
 const detector = new FlutterProjectDetector();
 const config = new ExtensionConfig();
@@ -91,6 +93,7 @@ function updateAllProviders(): void {
   renameCmd?.updateTranslationIndex(translationIndex);
   findUnusedCmd?.updateTranslationIndex(translationIndex);
   reportCmd?.updateTranslationIndex(translationIndex);
+  editCmd?.updateTranslationIndex(translationIndex);
 }
 
 export async function activate(
@@ -123,6 +126,7 @@ export async function activate(
   renameCmd = new RenameTranslationKeyCommand(translationIndex, getProject);
   findUnusedCmd = new FindUnusedKeysCommand(translationIndex, getProject);
   reportCmd = new ShowTranslationReportCommand(translationIndex);
+  editCmd = new EditTranslationCommand(translationIndex, getProject);
 
   fileWatcher = new FileWatcher(refreshCoordinator, async () => {
     await detectAndIndex();
@@ -270,6 +274,32 @@ export async function activate(
     vscode.commands.registerCommand(
       "flutterL10n.showTranslationReport",
       () => reportCmd.execute()
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "flutterL10n.editTranslation",
+      (args: any) => {
+        let key: string | undefined;
+        let locale: string | undefined;
+
+        if (typeof args === "string") {
+          try {
+            const decoded = decodeURIComponent(args);
+            const parsed = JSON.parse(decoded);
+            key = parsed.key;
+            locale = parsed.locale;
+          } catch {
+            key = args;
+          }
+        } else if (typeof args === "object" && args !== null) {
+          key = args.key;
+          locale = args.locale;
+        }
+
+        return editCmd.execute(key, locale);
+      }
     )
   );
 

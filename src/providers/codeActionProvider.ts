@@ -51,6 +51,7 @@ export class CodeActionProvider implements vscode.CodeActionProvider {
           actions.push(missingLocaleAction);
         }
 
+        actions.push(this.createEditTranslationAction(entry.key));
         actions.push(this.createCopyKeyAction(entry.key));
         actions.push(this.createOpenTemplateAction(document, entry.key));
 
@@ -164,6 +165,21 @@ export class CodeActionProvider implements vscode.CodeActionProvider {
     action.command = {
       command: "flutterL10n.addMetadata",
       title: `Add metadata for "${key}"`,
+      arguments: [key],
+    };
+
+    return action;
+  }
+
+  private createEditTranslationAction(key: string): vscode.CodeAction {
+    const action = new vscode.CodeAction(
+      `Edit translation for "${key}"`,
+      vscode.CodeActionKind.QuickFix
+    );
+
+    action.command = {
+      command: "flutterL10n.editTranslation",
+      title: `Edit "${key}"`,
       arguments: [key],
     };
 

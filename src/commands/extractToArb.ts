@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { TranslationIndex } from "../arb/translationIndex";
 import { LocalizationProject } from "../arb/arbModels";
+import { runGenL10n } from "../utils/flutterRunner";
 
 export class ExtractToArbCommand {
   private translationIndex: TranslationIndex;
@@ -72,13 +73,14 @@ export class ExtractToArbCommand {
     }
 
     const templateLocale = this.translationIndex.templateLocale;
-    const edit = new vscode.WorkspaceEdit();
 
-    edit.replace(
+    const dartEdit = new vscode.WorkspaceEdit();
+    dartEdit.replace(
       editor.document.uri,
       selection,
       `context.l10n.${key}`
     );
+    await vscode.workspace.applyEdit(dartEdit);
 
     const arbFiles = fs
       .readdirSync(project.arbDirectoryUri)
@@ -90,7 +92,7 @@ export class ExtractToArbCommand {
       const locale = this.extractLocaleFromFileName(arbFile);
 
       const parsed = JSON.parse(content) as Record<string, unknown>;
-      parsed[key] = locale === templateLocale ? originalString : originalString;
+      parsed[key] = originalString;
 
       if (locale === templateLocale) {
         const metadata: Record<string, unknown> = {};
@@ -101,19 +103,21 @@ export class ExtractToArbCommand {
       }
 
       const newContent = JSON.stringify(parsed, null, 2) + "\n";
-      edit.replace(vscode.Uri.file(filePath), new vscode.Range(0, 0, Infinity, 0), newContent);
+      fs.writeFileSync(filePath, newContent, "utf-8");
     }
 
-    const success = await vscode.workspace.applyEdit(edit);
-    if (success) {
-      vscode.window.showInformationMessage(
-        `Flutter L10n Helper: Extracted "${originalString}" to key "${key}".`
-      );
-    } else {
-      vscode.window.showErrorMessage(
-        "Flutter L10n Helper: Failed to extract string."
-      );
+    for (const arbFile of arbFiles) {
+      const filePath = path.join(project.arbDirectoryUri, arbFile);
+      const fileUri = vscode.Uri.file(filePath);
+      const doc = await vscode.workspace.openTextDocument(fileUri);
+      await doc.save();
     }
+
+    await runGenL10n(project.rootUri);
+
+    vscode.window.showInformationMessage(
+      `Flutter L10n Helper: Extracted "${originalString}" to key "${key}"`
+    );
   }
 
   private suggestKey(text: string): string {
