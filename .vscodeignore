@@ -11,4 +11,4 @@ test/**
 **/.gitignore
 .github/**
 .serena/**
-out/test/**
+out/**

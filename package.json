@@ -2,7 +2,7 @@
   "name": "flutter-l10n-helper",
   "displayName": "Flutter L10n Helper",
   "description": "Inline translations, diagnostics, navigation, and ARB tooling for Flutter localization.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "vongsochnithpov",
   "license": "MIT",
   "pricing": "Free",
@@ -35,7 +35,7 @@
   "activationEvents": [
     "workspaceContains:**/pubspec.yaml"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -144,12 +144,13 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run package",
+    "compile": "node esbuild.mjs --production",
+    "watch": "node esbuild.mjs --watch",
     "lint": "eslint src --ext ts",
-    "pretest": "npm run compile",
+    "pretest": "tsc -p ./",
     "test": "node ./out/test/test/runTests.js",
+    "package": "node esbuild.mjs --production",
     "package:vsix": "vsce package"
   },
   "devDependencies": {
@@ -158,6 +159,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.28.2",
     "eslint": "^8.56.0",
     "typescript": "^5.3.0"
   },
