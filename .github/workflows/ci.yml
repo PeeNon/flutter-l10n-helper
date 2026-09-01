@@ -29,11 +29,13 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Compile
+      - name: Compile (esbuild)
         run: npm run compile
 
       - name: Test
-        run: node out/test/test/runTests.js
+        run: |
+          npm run pretest
+          node out/test/test/runTests.js
 
       - name: Package VSIX
         run: npm run package:vsix

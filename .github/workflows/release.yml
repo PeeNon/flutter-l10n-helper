@@ -24,11 +24,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Compile
+      - name: Lint
+        run: npm run lint
+
+      - name: Compile (esbuild)
         run: npm run compile
 
       - name: Test
-        run: node out/test/test/runTests.js
+        run: |
+          npm run pretest
+          node out/test/test/runTests.js
 
       - name: Package VSIX
         run: npm run package:vsix
@@ -39,7 +44,14 @@ jobs:
           files: "*.vsix"
           generate_release_notes: true
 
+      - name: Publish to Open VSX
+        if: env.OVSX_PAT != ''
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: npx ovsx publish *.vsix -p ${{ secrets.OVSX_PAT }}
+
       - name: Publish to VS Code Marketplace
+        if: env.VSCE_PAT != ''
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: npx vsce publish --pre-release
