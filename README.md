@@ -51,7 +51,7 @@ context.l10n.welcome
 Or install the `.vsix` file:
 
 ```bash
-code --install-extension flutter-l10n-helper-0.1.0.vsix
+code --install-extension flutter-l10n-helper-0.1.1.vsix
 ```
 
 ## Commands
@@ -96,9 +96,55 @@ code --install-extension flutter-l10n-helper-0.1.0.vsix
 
 This extension operates completely locally. It makes no network requests, collects no translation content, collects no file paths or source code, and includes no telemetry.
 
+## Development
+
+To run the extension locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/PeeNon/flutter-l10n-helper.git
+   cd flutter-l10n-helper
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Build:
+   ```bash
+   npm run compile
+   ```
+4. Open in VS Code and press `F5` to launch the Extension Development Host
+
+### Useful Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run compile` | Build with esbuild (production) |
+| `npm run watch` | Build in watch mode |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run unit tests |
+| `npm run package:vsix` | Package the extension |
+
+## Releasing
+
+Releases are handled by the maintainer using the release script:
+
+```bash
+./release.sh <version>
+# Example: ./release.sh 0.2.0
+```
+
+This will:
+1. Bump the version in `package.json`
+2. Run lint, build, and tests
+3. Package the VSIX
+4. Create a git commit and tag
+5. Push to GitHub (triggers CI/CD)
+6. Publish to Open VSX Registry
+
 ## Contributing
 
-Contributions are welcome! Please open an issue or pull request on [GitHub](https://github.com/PeeNon/flutter-l10n-helper).
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
 
 ## License
 
