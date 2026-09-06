@@ -149,7 +149,7 @@
     "watch": "node esbuild.mjs --watch",
     "lint": "eslint src --ext ts",
     "pretest": "tsc -p ./",
-    "test": "node ./out/test/test/runTests.js",
+    "test": "node ./out/test/runTests.js",
     "package": "node esbuild.mjs --production",
     "package:vsix": "vsce package"
   },
