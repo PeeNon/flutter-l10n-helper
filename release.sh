@@ -28,7 +28,7 @@ npm run compile
 # 4. Test
 echo "4. Testing..."
 npm run pretest
-node out/test/runTests.js
+node out/test/test/runTests.js
 
 # 5. Package VSIX
 echo "5. Packaging VSIX..."

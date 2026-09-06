@@ -35,7 +35,7 @@ jobs:
       - name: Test
         run: |
           npm run pretest
-          node out/test/runTests.js
+          node out/test/test/runTests.js
 
       - name: Package VSIX
         run: npm run package:vsix
