@@ -92,14 +92,14 @@ export class RenameTranslationKeyCommand {
       const content = fs.readFileSync(filePath, "utf-8");
       const parsed = JSON.parse(content) as Record<string, unknown>;
 
-      if (parsed.hasOwnProperty(oldKey)) {
+      if (Object.prototype.hasOwnProperty.call(parsed, oldKey)) {
         parsed[newKey] = parsed[oldKey];
         delete parsed[oldKey];
       }
 
       const oldMetaKey = `@${oldKey}`;
       const newMetaKey = `@${newKey}`;
-      if (parsed.hasOwnProperty(oldMetaKey)) {
+      if (Object.prototype.hasOwnProperty.call(parsed, oldMetaKey)) {
         parsed[newMetaKey] = parsed[oldMetaKey];
         delete parsed[oldMetaKey];
       }

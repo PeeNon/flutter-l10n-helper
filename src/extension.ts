@@ -23,7 +23,7 @@ import { ShowTranslationReportCommand } from "./commands/showTranslationReport";
 import { EditTranslationCommand } from "./commands/editTranslation";
 import { LocalizationProject } from "./arb/arbModels";
 
-let translationIndex = new TranslationIndex();
+const translationIndex = new TranslationIndex();
 let inlineProvider: InlineDecorationProvider;
 let hoverProviderInst: HoverProvider;
 let definitionProviderInst: DefinitionProvider;
@@ -409,7 +409,7 @@ export async function activate(
         const parsed = JSON.parse(content) as Record<string, unknown>;
 
         const metaKey = `@${key}`;
-        if (!parsed.hasOwnProperty(metaKey)) {
+        if (!Object.prototype.hasOwnProperty.call(parsed, metaKey)) {
           parsed[metaKey] = {
             description: `TODO: Add description for ${key}`,
           };

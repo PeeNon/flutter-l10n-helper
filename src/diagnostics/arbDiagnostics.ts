@@ -48,7 +48,7 @@ export class Aragnostics {
       if (key.startsWith("@")) {
         metadataKeys.push(key.substring(1));
         const translationKey = key.substring(1);
-        if (!parsed.hasOwnProperty(translationKey)) {
+        if (!Object.prototype.hasOwnProperty.call(parsed, translationKey)) {
           const range = this.findKeyRange(document, key);
           diagnostics.push(
             new vscode.Diagnostic(
@@ -77,7 +77,7 @@ export class Aragnostics {
 
     for (const key of translationKeys) {
       const metadataKey = `@${key}`;
-      if (!parsed.hasOwnProperty(metadataKey)) {
+      if (!Object.prototype.hasOwnProperty.call(parsed, metadataKey)) {
         const meta = parsed[metadataKey] as Record<string, unknown> | undefined;
         if (meta && meta.placeholders) {
           const range = this.findKeyRange(document, key);
